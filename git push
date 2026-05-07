@@ -1,0 +1,3 @@
+git add index.html protein-video.mp4
+git commit -m "Scroll-driven video landing page"
+git push -u origin claude/protein-powder-landing-page-m8bdn
