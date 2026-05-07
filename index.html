@@ -8,1050 +8,541 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ── LIGHT THEME + LIQUID GLASS SYSTEM ── */
 :root {
-  --bg: #f2efe9;
-  --bg2: #ece8e1;
-  --surface: rgba(255,255,255,0.55);
-  --surface2: rgba(255,255,255,0.75);
-  --glass: rgba(255,255,255,0.42);
-  --glass-border: rgba(255,255,255,0.7);
-  --glass-shadow: rgba(0,0,0,0.08);
-  --border: rgba(0,0,0,0.07);
-  --text: #1a1814;
-  --text2: #3d3a34;
-  --muted: #8c8880;
-  --accent: #8a6f4e;
+  --bg: #0a0908;
+  --bg2: #14110d;
+  --text: #f2efe9;
+  --text2: #c8c2b6;
+  --muted: #7a766d;
+  --accent: #c8a878;
   --accent2: #b08b60;
-  --green: #4a7c59;
-  --green-soft: rgba(74,124,89,0.12);
-  --lens-color: rgba(138,111,78,0.15);
+  --green: #a8c5a0;
+  --border: rgba(255,255,255,0.08);
+  --glass: rgba(20,17,13,0.55);
+  --glass-border: rgba(255,255,255,0.12);
 }
 
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
-html { scroll-behavior:smooth }
-body { background:var(--bg); color:var(--text); font-family:'DM Mono',monospace; overflow-x:hidden; cursor:none }
+html, body { background:var(--bg); color:var(--text); font-family:'DM Mono',monospace; overflow-x:hidden }
+html { scroll-behavior:auto }
+body { -webkit-font-smoothing:antialiased; }
 
 /* Warm grain overlay */
 body::before {
   content:'';
   position:fixed;
   inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
   pointer-events:none;
   z-index:1000;
-  opacity:.6;
+  opacity:.55;
+  mix-blend-mode:overlay;
 }
-
-/* ── LIQUID GLASS MIXIN ── */
-.glass {
-  background: var(--glass);
-  backdrop-filter: blur(24px) saturate(1.6);
-  -webkit-backdrop-filter: blur(24px) saturate(1.6);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 2px 32px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.04);
-}
-
-/* ── CURSOR ── */
-.cursor { position:fixed; width:8px; height:8px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:9999; transition:transform .15s,opacity .15s }
-.cursor-ring { position:fixed; width:32px; height:32px; border:1px solid rgba(138,111,78,0.35); border-radius:50%; pointer-events:none; z-index:9998 }
-.cursor.hov { transform:scale(2.5); opacity:.4 }
 
 /* ── NAV ── */
 nav {
   position:fixed; top:0; left:0; right:0; z-index:500;
-  padding:18px 48px;
+  padding:22px 48px;
   display:flex; justify-content:space-between; align-items:center;
-  transition:all .4s;
+  transition:background .4s, backdrop-filter .4s, border-color .4s;
+  border-bottom:1px solid transparent;
 }
 nav.sc {
-  background: rgba(242,239,233,0.72);
-  backdrop-filter: blur(28px) saturate(1.8);
-  -webkit-backdrop-filter: blur(28px) saturate(1.8);
-  border-bottom: 1px solid rgba(255,255,255,0.8);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.05), 0 8px 32px rgba(0,0,0,0.04);
+  background: rgba(10,9,8,0.55);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom-color: var(--border);
 }
-.nav-logo { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; letter-spacing:.35em; text-transform:uppercase; color:var(--text); text-decoration:none }
+.nav-logo { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; letter-spacing:.4em; text-transform:uppercase; color:var(--text); text-decoration:none }
 .nav-right { display:flex; align-items:center; gap:32px }
-.nav-link { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .2s }
+.nav-link { font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .25s }
 .nav-link:hover { color:var(--text) }
-.nav-status { display:flex; align-items:center; gap:8px; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--green) }
-.sdot { width:6px; height:6px; background:var(--green); border-radius:50%; animation:pulse 2s ease-in-out infinite }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.nav-status { display:flex; align-items:center; gap:8px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--green) }
+.sdot { width:6px; height:6px; background:var(--green); border-radius:50%; box-shadow:0 0 12px var(--green); animation:pulse 2s ease-in-out infinite }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
 
-/* ── HERO ── */
-.hero {
-  min-height:100vh;
-  display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;
-  position:relative; padding:120px 48px 80px; overflow:hidden;
-}
-.hero-orb1 { position:absolute; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle, rgba(168,197,160,.22) 0%, transparent 70%); top:-100px; left:-200px; pointer-events:none }
-.hero-orb2 { position:absolute; width:600px; height:600px; border-radius:50%; background:radial-gradient(circle, rgba(138,111,78,.12) 0%, transparent 70%); bottom:-150px; right:-100px; pointer-events:none }
-.hero-orb3 { position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle, rgba(200,184,154,.1) 0%, transparent 70%); top:30%; left:60%; pointer-events:none }
-
-.hero-eyebrow { font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); margin-bottom:40px; opacity:0; animation:fu .8s ease .2s forwards }
-.hero-title { font-family:'Cormorant Garamond',serif; font-size:clamp(72px,12vw,160px); font-weight:300; line-height:.9; color:var(--text); opacity:0; animation:fu 1s ease .4s forwards }
-.hero-title em { font-style:italic; color:var(--accent) }
-.hero-sub-block { display:flex; align-items:center; gap:24px; margin-top:40px; opacity:0; animation:fu .8s ease .7s forwards }
-.hline { width:60px; height:1px; background:var(--border) }
-.hero-sub { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); white-space:nowrap }
-.hero-desc { max-width:480px; margin-top:40px; font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; line-height:1.7; color:var(--text2); opacity:0; animation:fu .8s ease .9s forwards }
-
-/* ── HERO GLASS FORM ── */
-.cta-grp { margin-top:56px; display:flex; flex-direction:column; align-items:center; gap:16px; opacity:0; animation:fu .8s ease 1.1s forwards }
-.wform {
-  display:flex;
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  border: 1px solid rgba(255,255,255,0.85);
-  box-shadow: 0 2px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9);
-  border-radius: 3px;
-  overflow:hidden;
-  transition:box-shadow .3s, border-color .3s;
-}
-.wform:focus-within {
-  border-color: rgba(138,111,78,0.4);
-  box-shadow: 0 4px 32px rgba(138,111,78,0.12), inset 0 1px 0 rgba(255,255,255,0.9);
-}
-.winput { background:transparent; border:none; outline:none; padding:14px 20px; font-family:'DM Mono',monospace; font-size:12px; color:var(--text); width:280px; letter-spacing:.05em }
-.winput::placeholder { color:var(--muted) }
-.wbtn { background:var(--accent); border:none; padding:14px 24px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#fff; cursor:none; transition:background .2s; white-space:nowrap }
-.wbtn:hover { background:var(--accent2) }
-.hero-count { font-size:10px; letter-spacing:.15em; color:var(--muted) }
-.hero-count span { color:var(--accent) }
-.suc { display:none; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--green); gap:8px; align-items:center }
-.suc.on { display:flex }
-.hero-scroll { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; opacity:0; animation:fi 1s ease 2s forwards }
-.stxt { font-size:9px; letter-spacing:.25em; text-transform:uppercase; color:var(--muted) }
-.sline { width:1px; height:40px; background:linear-gradient(to bottom, var(--muted), transparent); animation:sd 1.5s ease-in-out infinite }
-
-@keyframes sd { 0%{transform:scaleY(0);transform-origin:top;opacity:1} 50%{transform:scaleY(1);transform-origin:top} 51%{transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom;opacity:0} }
-@keyframes fu { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-@keyframes fi { to{opacity:1} }
-
-/* ── CREDENTIAL BAR ── */
-.cred-bar {
-  padding:32px 0;
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  background: rgba(255,255,255,0.25);
-}
-.cred-inner {
-  max-width:1100px; margin:0 auto; padding:0 48px;
-  display:grid; grid-template-columns:repeat(4,1fr);
-  gap:0;
-}
-.cred-item {
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  padding:0 24px;
-  border-right:1px solid var(--border);
-}
-.cred-item:last-child { border-right:none }
-.cred-n { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; color:var(--accent); line-height:1 }
-.cred-l { font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); text-align:center }
-
-/* ── LAYOUT ── */
-.container { max-width:1100px; margin:0 auto; padding:0 48px }
-.sec-lbl { font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); margin-bottom:64px; display:flex; align-items:center; gap:16px }
-.sec-lbl::after { content:''; flex:1; height:1px; background:var(--border); max-width:80px }
-
-/* ── ABOUT ── */
-.about-sec { padding:140px 0 }
-.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start }
-.about-h { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4vw,56px); font-weight:300; line-height:1.15; color:var(--text) }
-.about-h em { font-style:italic; color:var(--accent) }
-.about-r { padding-top:12px }
-.about-b { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; line-height:1.8; color:var(--text2); margin-bottom:32px }
-
-/* ── GLASS STAT CARDS ── */
-.stat-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:48px; padding-top:48px; border-top:1px solid var(--border) }
-.stat-card {
-  background: rgba(255,255,255,0.5);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  border: 1px solid rgba(255,255,255,0.8);
-  box-shadow: 0 2px 16px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9);
-  border-radius: 12px;
-  padding: 24px 20px;
-  transition: transform .2s, box-shadow .2s;
-}
-.stat-card:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9) }
-.stat-n { font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:300; color:var(--accent); line-height:1; margin-bottom:8px }
-.stat-l { font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted) }
-
-/* ── PRODUCTS ── */
-.prod-sec { padding:140px 0; border-top:1px solid var(--border) }
-.prod-hdr { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:80px }
-.prod-title { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4vw,52px); font-weight:300; color:var(--text) }
-.prod-note { font-size:10px; letter-spacing:.2em; color:var(--muted); text-transform:uppercase; text-align:right; line-height:1.8 }
-.prod-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px }
-
-/* ── GLASS PRODUCT CARDS ── */
-.pcard {
-  background: rgba(255,255,255,0.5);
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  border: 1px solid rgba(255,255,255,0.8);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.95);
-  border-radius: 20px;
-  padding: 48px 36px;
-  position:relative; overflow:hidden;
-  transition: transform .3s, box-shadow .3s;
-}
-.pcard::before {
-  content:'';
-  position:absolute; top:0; left:0; right:0; height:1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
-}
-.pcard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 48px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.95);
-}
-.ptag { font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:var(--accent); margin-bottom:32px; display:flex; align-items:center; gap:8px }
-.tline { width:20px; height:1px; background:var(--accent) }
-.pname { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--text); margin-bottom:16px; line-height:1.2 }
-.pdesc { font-size:11px; line-height:1.9; color:var(--muted); margin-bottom:40px }
-.pspecs { border-top:1px solid var(--border); padding-top:24px; display:flex; flex-direction:column; gap:10px }
-.srow { display:flex; justify-content:space-between; font-size:10px; letter-spacing:.08em }
-.sk { color:var(--muted) } .sv { color:var(--text) }
-.pbadge {
-  position:absolute; top:20px; right:20px;
-  font-size:9px; letter-spacing:.15em; text-transform:uppercase;
-  padding:5px 12px;
-  background: rgba(255,255,255,0.6);
-  border: 1px solid rgba(255,255,255,0.8);
-  border-radius: 100px;
-  color:var(--muted);
-  backdrop-filter: blur(8px);
-}
-.blnch { color:var(--green); border-color:rgba(74,124,89,0.2); background:rgba(74,124,89,0.06) }
-
-/* ── SCIENCE ── */
-.sci-sec { padding:140px 0; border-top:1px solid var(--border) }
-.sci-grid { display:grid; grid-template-columns:1fr 1.5fr; gap:100px; align-items:center }
-.sci-h { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,3.5vw,48px); font-weight:300; line-height:1.2; color:var(--text); margin-top:32px; margin-bottom:32px }
-.sci-h em { font-style:italic; color:var(--accent) }
-.sci-b { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:300; line-height:1.85; color:var(--text2) }
-.sci-right { display:flex; flex-direction:column; gap:8px }
-
-/* ── GLASS DATA ROWS ── */
-.sci-row {
-  background: rgba(255,255,255,0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.75);
-  box-shadow: 0 1px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9);
-  border-radius: 10px;
-  padding: 18px 24px;
-  display:flex; justify-content:space-between; align-items:center;
-  transition: all .2s;
-}
-.sci-row:hover {
-  background: rgba(255,255,255,0.65);
-  transform:translateX(4px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9);
-}
-.sci-rl { font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted) }
-.sci-rv { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:300; color:var(--accent) }
-
-/* ── FEATURED SCIENCE ROWS ── */
-.sci-row.featured {
-  background: rgba(255,255,255,0.65);
-  border: 1px solid rgba(255,255,255,0.92);
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.95);
-  position: relative;
-  overflow: hidden;
-}
-/* Warm left-edge accent bar */
-.sci-row.featured::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 12%; bottom: 12%;
-  width: 2px;
-  border-radius: 2px;
-  background: var(--accent);
-  opacity: 0.5;
-}
-.sci-row.featured:hover {
-  background: rgba(255,255,255,0.82);
-}
-.sci-row.featured:hover::before {
-  opacity: 0.85;
-}
-.sci-row.featured .sci-rl {
-  color: var(--text2);
-  font-weight: 500;
-}
-.sci-feat-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 8px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: rgba(138,111,78,0.08);
-  border: 1px solid rgba(138,111,78,0.18);
-  border-radius: 100px;
-  padding: 3px 9px;
-  margin-left: 10px;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-.sci-feat-tag.green {
-  color: var(--green);
-  background: rgba(74,124,89,0.07);
-  border-color: rgba(74,124,89,0.2);
-}
-
-/* ── INSPECT / CURSOR REVEAL ── */
-.ins-sec { padding:140px 0; border-top:1px solid var(--border) }
-.ins-intro { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:64px; gap:40px }
-.ins-h { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,3.5vw,48px); font-weight:300; color:var(--text); line-height:1.2; margin-top:16px }
-.ins-h em { font-style:italic; color:var(--accent) }
-.ins-hint { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); text-align:right; line-height:2; flex-shrink:0 }
-.ins-hint span { color:var(--accent) }
-
-/* ── 2-ROW INSPECT GRID ──
-   Col 1: panel 01 tall (spans both rows)
-   Col 2-3, Row 1: panels 02 + 03
-   Col 2-3, Row 2: panels 04 + 05
-*/
-.ins-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 340px 340px;
-  gap: 12px;
-}
-.ic.tall { grid-column: 1; grid-row: 1 / 3; }
-/* wide class no longer used for spanning — both row-2 panels are equal */
-.ic.wide { grid-column: auto; }
-
-/* ── GLASS INSPECT CELLS ── */
-.ic {
+/* ── SCROLL-DRIVEN VIDEO STAGE ── */
+.stage {
   position:relative;
-  background: rgba(255,255,255,0.45);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  border: 1px solid rgba(255,255,255,0.8);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
-  border-radius: 20px;
-  overflow:hidden; cursor:none;
-  transition: all .4s cubic-bezier(.23,1,.32,1);
+  height: 700vh;
 }
-.ic.tall { grid-row:span 2 }
-.ic.wide { grid-column:span 2 }
-.ic:hover {
-  background: rgba(255,255,255,0.65);
-  box-shadow: 0 12px 48px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.95);
-  transform: translateY(-2px);
+.pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background:#000;
 }
-/* SVG always fills the cell — no letterboxing, no background bleed */
-.ic svg {
+.pin video, .pin .vfallback {
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
-  transition:transform .7s cubic-bezier(.23,1,.32,1);
-  /* fill mode: cover */
-  overflow: hidden;
+  object-fit:cover;
+  pointer-events:none;
+  will-change: opacity, transform;
 }
-.ic:hover svg { transform:scale(1.03) }
-
-/* ── FROSTED GLASS OVERLAY ── */
-.ic-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 10;
-  border-radius: 20px;
-  overflow: hidden;
+.pin .vfallback {
+  background:
+    radial-gradient(60% 60% at 30% 40%, rgba(200,168,120,.35), transparent 60%),
+    radial-gradient(60% 70% at 75% 70%, rgba(168,197,160,.22), transparent 60%),
+    linear-gradient(180deg, #14110d 0%, #0a0908 100%);
 }
-/* The spreading glass panel — starts as a tiny circle at bottom-center, expands to fill */
-.ic-glass {
-  position: absolute;
-  left: 50%; bottom: 0;
-  width: 100%; height: 100%;
-  transform: translateX(-50%) scaleY(0);
-  transform-origin: bottom center;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0;
-  background: linear-gradient(
-    to top,
-    rgba(255,255,255,0.92) 0%,
-    rgba(255,255,255,0.82) 50%,
-    rgba(255,255,255,0.65) 100%
-  );
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
-  /* Specular sheen along the top edge */
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(0,0,0,0.03);
+.pin::after {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.05) 18%, rgba(0,0,0,.05) 70%, rgba(0,0,0,.7) 100%),
+    radial-gradient(120% 80% at 50% 50%, transparent 40%, rgba(0,0,0,.45) 100%);
+  pointer-events:none;
+  z-index:2;
 }
-/* Top edge glow line — the "leading edge" of spreading glass */
-.ic-glass::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 10%; right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease 0.2s;
-}
-.ic:hover .ic-glass::before { opacity: 1; }
-.ic:hover .ic-glass {
-  transform: translateX(-50%) scaleY(1);
-  opacity: 1;
+.pin .vignette-edge {
+  position:absolute; inset:0; z-index:3; pointer-events:none;
+  box-shadow: inset 0 0 200px 40px rgba(0,0,0,.55);
 }
 
-/* Content inside the overlay */
-.ic-info {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 36px 32px;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
-  pointer-events: none;
+/* ── OVERLAY COPY ── */
+.overlay {
+  position:absolute;
+  inset:0;
+  z-index:5;
+  pointer-events:none;
 }
-.ic:hover .ic-info {
-  opacity: 1;
-  transform: translateY(0);
+.frame {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:0 8vw;
+  opacity:0;
+  transform: translateY(24px);
+  transition: opacity .5s ease, transform .6s ease;
 }
-.ic-tag {
-  font-size: 9px;
-  letter-spacing: .32em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.frame.on { opacity:1; transform: translateY(0); pointer-events:auto }
+
+.eyebrow {
+  font-size:10px; letter-spacing:.32em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:28px;
+  display:inline-flex; align-items:center; gap:14px; align-self:flex-start;
 }
-.ic-tag::before {
-  content: '';
-  width: 24px; height: 1px;
-  background: var(--accent);
-  opacity: 0.5;
+.eyebrow::before { content:''; width:36px; height:1px; background:var(--accent) }
+
+.bigtitle {
+  font-family:'Cormorant Garamond', serif;
+  font-weight:300;
+  font-size: clamp(56px, 9.5vw, 148px);
+  line-height:.95;
+  letter-spacing:-.01em;
+  max-width: 14ch;
 }
-.ic-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(22px, 2.8vw, 32px);
-  font-weight: 300;
-  color: var(--text);
-  line-height: 1.2;
-  margin-bottom: 16px;
-}
-.ic-body {
-  font-size: 10px;
-  letter-spacing: .08em;
-  line-height: 1.85;
-  color: var(--muted);
-  max-width: 320px;
-}
-.ic-body strong {
-  color: var(--text);
-  font-weight: 400;
+.bigtitle em { font-style:italic; color:var(--accent) }
+
+.lede {
+  margin-top:32px;
+  max-width: 540px;
+  font-family:'Cormorant Garamond', serif;
+  font-weight:300;
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height:1.55;
+  color:var(--text2);
 }
 
-.clbl { position:absolute; bottom:18px; left:18px; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(0,0,0,0.18); z-index:5; transition: opacity .3s; pointer-events:none }
-.ic:hover .clbl { opacity: 0; }
-.cidx { position:absolute; top:18px; right:18px; font-size:9px; letter-spacing:.15em; color:rgba(0,0,0,0.1); z-index:5; pointer-events:none; transition: opacity .3s; }
-.ic:hover .cidx { opacity: 0; }
+.frame.left  { align-items:flex-start; text-align:left }
+.frame.right { align-items:flex-end;   text-align:right }
+.frame.right .eyebrow { align-self:flex-end }
+.frame.right .eyebrow::before { display:none }
+.frame.right .eyebrow::after  { content:''; width:36px; height:1px; background:var(--accent) }
+.frame.center{ align-items:center; text-align:center }
+.frame.center .eyebrow::before, .frame.center .eyebrow::after { content:''; width:36px; height:1px; background:var(--accent) }
 
-/* ── CTA GLASS SECTION ── */
-.cta-sec { padding:160px 0; border-top:1px solid var(--border); text-align:center; position:relative; overflow:hidden }
-.cta-orb { position:absolute; width:800px; height:800px; border-radius:50%; background:radial-gradient(circle, rgba(168,197,160,.15) 0%, transparent 70%); top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none }
-.cta-ey { font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); margin-bottom:32px }
-.cta-h { font-family:'Cormorant Garamond',serif; font-size:clamp(48px,7vw,96px); font-weight:300; line-height:1; color:var(--text); margin-bottom:40px }
-.cta-h em { font-style:italic; color:var(--accent) }
-.cta-sub { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; color:var(--muted); margin-bottom:56px; max-width:440px; margin-left:auto; margin-right:auto; line-height:1.7 }
+.stat-row {
+  margin-top:48px;
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap:18px;
+  width:100%;
+  max-width: 920px;
+}
+.frame.right .stat-row { margin-left:auto }
+.stat-card {
+  background: var(--glass);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:22px 20px;
+  text-align:left;
+}
+.stat-n {
+  font-family:'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight:300;
+  color:var(--text);
+  line-height:1;
+}
+.stat-n em { font-style:italic; color:var(--accent) }
+.stat-l {
+  margin-top:12px;
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+  line-height:1.5;
+}
 
-/* ── FOOTER ── */
-footer {
-  padding:40px 48px;
+.scroll-progress {
+  position:fixed; left:0; top:0; right:0; height:2px; z-index:600;
+  background: rgba(255,255,255,.05);
+}
+.scroll-progress > i {
+  display:block; height:100%; width:0%;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  transition: width .08s linear;
+}
+
+.frame-counter {
+  position:fixed; right:36px; bottom:36px; z-index:550;
+  font-size:10px; letter-spacing:.25em; text-transform:uppercase;
+  color:var(--muted);
+  display:flex; align-items:center; gap:14px;
+}
+.frame-counter b { color:var(--text); font-weight:400; font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic }
+.frame-counter .bar { width:60px; height:1px; background:var(--border); position:relative; overflow:hidden }
+.frame-counter .bar i { position:absolute; left:0; top:0; bottom:0; background:var(--accent); width:0% }
+
+.scroll-hint {
+  position:absolute; left:50%; bottom:36px; transform:translateX(-50%); z-index:6;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  color:var(--muted); font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+  transition:opacity .4s;
+}
+.scroll-hint .line { width:1px; height:48px; background:linear-gradient(180deg, var(--accent), transparent); animation:slide 2s ease-in-out infinite }
+@keyframes slide {
+  0%   { transform:scaleY(0); transform-origin: top }
+  50%  { transform:scaleY(1); transform-origin: top }
+  51%  { transform:scaleY(1); transform-origin: bottom }
+  100% { transform:scaleY(0); transform-origin: bottom }
+}
+.scroll-hint.hide { opacity:0 }
+
+/* ── CLOSING / CTA ── */
+.outro {
+  position:relative;
+  background: linear-gradient(180deg, #0a0908 0%, #14110d 60%, #0a0908 100%);
+  padding: 120px 8vw 100px;
   border-top:1px solid var(--border);
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;
-  text-align:center;
-  background: rgba(255,255,255,0.3);
-  backdrop-filter: blur(12px);
 }
-.fl { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; letter-spacing:.3em; text-transform:uppercase; color:var(--muted) }
-.fr { display:flex; gap:32px; align-items:center; justify-content:center; }
-.flink { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .2s }
-.flink:hover { color:var(--text) }
-.fc { font-size:10px; color:rgba(0,0,0,0.2); letter-spacing:.1em; text-align:center; }
-
-/* ── SCROLL REVEAL ── */
-.rv { opacity:0; transform:translateY(28px); transition:opacity .8s, transform .8s }
-.rv.vis { opacity:1; transform:translateY(0) }
-.rv.d1 { transition-delay:.1s } .rv.d2 { transition-delay:.2s } .rv.d3 { transition-delay:.3s }
-
-@media(max-width:1024px) and (min-width:769px){
-  .ins-grid{grid-template-columns:repeat(2,1fr)}
-  .ic.tall{grid-row:span 2}
-  .ic.wide{grid-column:span 2}
+.outro-inner { max-width: 1100px; margin:0 auto; display:grid; grid-template-columns: 1.1fr 1fr; gap:80px; align-items:end }
+.outro-h {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size: clamp(48px, 6vw, 92px);
+  line-height:1;
+  letter-spacing:-.01em;
 }
-@media(max-width:768px){
-  nav{padding:20px 24px}.nav-right{gap:16px}.nav-status,.nav-link:not(:last-child){display:none}
-  .hero{padding:100px 24px 80px}.container{padding:0 24px}
-  .about-grid,.sci-grid{grid-template-columns:1fr;gap:48px}
-  .prod-grid{grid-template-columns:1fr}
-  .prod-hdr{flex-direction:column;align-items:flex-start;gap:16px}
-  .stat-row{grid-template-columns:1fr}
-  .winput{width:220px}
-  .ins-grid{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:280px}
-  .ic.tall,.ic.wide{grid-row:span 1;grid-column:span 1}
-  .cred-inner{grid-template-columns:repeat(2,1fr);gap:24px 0}
-  .cred-item{border-right:none;border-bottom:1px solid var(--border);padding:16px 0}
-  .cred-item:nth-child(odd){border-right:1px solid var(--border)}
-  .cred-item:nth-last-child(-n+2){border-bottom:none}
-  .ins-intro{flex-direction:column;align-items:flex-start}
-  footer{flex-direction:column;gap:24px;text-align:center}
+.outro-h em { font-style:italic; color:var(--accent) }
+.outro-p {
+  font-family:'Cormorant Garamond',serif;
+  font-size: 20px;
+  line-height:1.6;
+  color:var(--text2);
+  margin-top:28px;
+  max-width:480px;
+}
+
+.wform {
+  display:flex; gap:10px; align-items:stretch;
+  background: rgba(255,255,255,0.04);
+  border:1px solid var(--glass-border);
+  border-radius:999px;
+  padding:6px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.wform input {
+  flex:1;
+  background:transparent;
+  border:none; outline:none;
+  color:var(--text);
+  font-family:'DM Mono', monospace;
+  font-size:13px;
+  letter-spacing:.04em;
+  padding: 14px 18px;
+}
+.wform input::placeholder { color: var(--muted) }
+.wform button {
+  border:none; cursor:pointer;
+  background: var(--accent);
+  color:#14110d;
+  font-family:'DM Mono', monospace;
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  padding: 0 26px;
+  border-radius:999px;
+  transition: background .25s, transform .15s;
+}
+.wform button:hover { background: var(--text); transform: translateY(-1px) }
+.suc {
+  margin-top:14px;
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color: var(--green);
+  display:none;
+}
+.suc.on { display:flex; align-items:center; gap:10px }
+
+.fine {
+  margin-top:28px;
+  display:flex; gap:24px; flex-wrap:wrap;
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted);
+}
+.fine span { display:flex; align-items:center; gap:8px }
+.fine span::before { content:''; width:4px; height:4px; background:var(--accent); border-radius:50%; }
+
+footer {
+  padding: 40px 8vw;
+  border-top:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color: var(--muted);
+}
+footer a { color:var(--muted); text-decoration:none; transition:color .25s }
+footer a:hover { color:var(--text) }
+
+@media (max-width: 880px) {
+  nav { padding:16px 22px }
+  .nav-right { gap:20px }
+  .nav-link { display:none }
+  .frame { padding: 0 6vw }
+  .stat-row { grid-template-columns: repeat(2, 1fr) }
+  .outro { padding: 80px 6vw }
+  .outro-inner { grid-template-columns: 1fr; gap:48px }
+  .frame-counter { right:18px; bottom:18px }
+  .stage { height: 750vh }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame { transition: opacity .2s ease }
+  .scroll-hint .line { animation: none }
 }
 </style>
 </head>
 <body>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cr"></div>
 
 <nav id="nav">
   <a href="#" class="nav-logo">Ode</a>
   <div class="nav-right">
+    <a class="nav-link" href="#story">Story</a>
+    <a class="nav-link" href="#science">Science</a>
+    <a class="nav-link" href="#waitlist">Waitlist</a>
     <div class="nav-status"><div class="sdot"></div>Waitlist Open</div>
-    <a href="#science" class="nav-link">Science</a>
-    <a href="#products" class="nav-link">Products</a>
-    <a href="#waitlist" class="nav-link">Join</a>
   </div>
 </nav>
 
-<!-- ══ HERO ══ -->
-<section class="hero">
-  <div class="hero-orb1"></div>
-  <div class="hero-orb2"></div>
-  <div class="hero-orb3"></div>
-  <div class="hero-eyebrow">Precision-fermented protein — Est. 2026</div>
-  <h1 class="hero-title">The Other<br><em>Protein.</em></h1>
-  <div class="hero-sub-block">
-    <div class="hline"></div>
-    <span class="hero-sub">Yeast-derived · Muscle performance · Skin-safe</span>
-    <div class="hline"></div>
-  </div>
-  <p class="hero-desc">Not whey. Not plant. Something entirely new — precision-fermented yeast protein engineered for serious muscle growth, without the dairy hormones that wreck your skin.</p>
-  <div class="cta-grp">
-    <div class="wform" id="hf">
-      <input type="email" class="winput" placeholder="your@email.com" id="he">
-      <button class="wbtn" onclick="signup('he','hf','hs')">Request Access</button>
+<div class="scroll-progress"><i id="sp"></i></div>
+
+<section class="stage" id="stage">
+  <div class="pin">
+    <video id="vid"
+      src="protein-video.mp4"
+      muted
+      playsinline
+      preload="auto"
+      disablepictureinpicture
+      disableremoteplayback
+      tabindex="-1"></video>
+    <div class="vfallback" id="fallback"></div>
+    <div class="vignette-edge"></div>
+
+    <div class="overlay" id="overlay">
+
+      <div class="frame center on" data-frame="0">
+        <div class="eyebrow">Precision-Fermented · Est. 2026</div>
+        <h1 class="bigtitle">The <em>other</em><br>protein.</h1>
+        <p class="lede">Built differently. Brewed, not bred. A new kind of clean protein, designed for athletes who care about what goes in — and what comes after.</p>
+      </div>
+
+      <div class="frame left" data-frame="1" id="story">
+        <div class="eyebrow">001 · The Source</div>
+        <h2 class="bigtitle">Brewed<br>from <em>microbes</em>.</h2>
+        <p class="lede">No cows. No whey. Just precision-fermented dairy protein — molecularly identical, ethically made, and gentler on your body than anything that came before it.</p>
+      </div>
+
+      <div class="frame right" data-frame="2">
+        <div class="eyebrow">002 · The Profile</div>
+        <h2 class="bigtitle">Pure <em>isolate</em>.<br>Nothing extra.</h2>
+        <div class="stat-row">
+          <div class="stat-card"><div class="stat-n">95<em>%+</em></div><div class="stat-l">Protein purity</div></div>
+          <div class="stat-card"><div class="stat-n">9<em>/9</em></div><div class="stat-l">Essential amino acids</div></div>
+          <div class="stat-card"><div class="stat-n">0<em>.97</em></div><div class="stat-l">PDCAAS digestibility</div></div>
+          <div class="stat-card"><div class="stat-n">0<em>g</em></div><div class="stat-l">Artificial fillers</div></div>
+        </div>
+      </div>
+
+      <div class="frame left" data-frame="3" id="science">
+        <div class="eyebrow">003 · The Difference</div>
+        <h2 class="bigtitle">Kind to <em>skin</em>.<br>Built to <em>perform</em>.</h2>
+        <p class="lede">No dairy hormones. No lactose. No bloat. Just the same complete amino profile your body knows — without the trade-offs that come with whey.</p>
+      </div>
+
+      <div class="frame right" data-frame="4">
+        <div class="eyebrow">004 · The Footprint</div>
+        <h2 class="bigtitle">A <em>lighter</em><br>kind of strong.</h2>
+        <p class="lede">70% less carbon than whey. A fraction of the land. None of the herd. Performance protein that doesn't cost the planet a thing.</p>
+      </div>
+
+      <div class="frame center" data-frame="5">
+        <div class="eyebrow">005 · The Drop</div>
+        <h2 class="bigtitle">Launching<br><em>Q2 / Q3</em> 2026.</h2>
+        <p class="lede">Isolate 001 ships first to the waitlist. Limited initial run, full transparency on every batch, every ingredient, every test.</p>
+      </div>
+
     </div>
-    <div class="suc" id="hs"><span>✦</span> You're on the list. We'll be in touch.</div>
-    <div class="hero-count"><span id="cnt">...</span> people already waiting</div>
+
+    <div class="scroll-hint" id="hint"><span>Scroll</span><div class="line"></div></div>
   </div>
-  <div class="hero-scroll"><span class="stxt">Scroll</span><div class="sline"></div></div>
 </section>
 
-<div class="cred-bar">
-  <div class="cred-inner">
-    <div class="cred-item"><div class="cred-n">95%+</div><div class="cred-l">Protein purity</div></div>
-    <div class="cred-item"><div class="cred-n">0.97</div><div class="cred-l">PDCAAS digestibility</div></div>
-    <div class="cred-item"><div class="cred-n">9/9</div><div class="cred-l">Essential amino acids</div></div>
-    <div class="cred-item"><div class="cred-n">–70%</div><div class="cred-l">Carbon vs whey</div></div>
-  </div>
+<div class="frame-counter">
+  <span><b id="fc">01</b> / 06</span>
+  <div class="bar"><i id="fcb"></i></div>
 </div>
 
-<!-- ══ ABOUT ══ -->
-<section class="about-sec" id="about">
-  <div class="container">
-    <div class="sec-lbl rv">001 — What is Ode</div>
-    <div class="about-grid">
-      <div class="rv d1"><h2 class="about-h">Built to perform.<br><em>Kind to skin.</em></h2></div>
-      <div class="about-r rv d2">
-        <p class="about-b">Ode is built on a precision-fermented yeast protein isolate with a complete essential amino acid profile, 8.5% leucine, and a PDCAAS of 0.97 — the markers that drive real muscle protein synthesis. It performs at whey's level. Then it goes further.</p>
-        <p class="about-b">Whey is a dairy byproduct loaded with IGF-1 and androgens — hormones clinically linked to acne and skin inflammation. Yeast protein contains none of them. Same gains. Clear skin. No compromise.</p>
-        <div class="stat-row">
-          <div class="stat-card"><div class="stat-n">95%+</div><div class="stat-l">Protein purity (isolate)</div></div>
-          <div class="stat-card"><div class="stat-n">9/9</div><div class="stat-l">Essential amino acids</div></div>
-          <div class="stat-card"><div class="stat-n" style="font-size:32px;line-height:1.1">Clear<em style="font-style:italic;color:var(--accent)">er</em></div><div class="stat-l">Skin — no dairy hormones</div></div>
-          <div class="stat-card"><div class="stat-n">0g</div><div class="stat-l">Artificial fillers</div></div>
-        </div>
+<section class="outro" id="waitlist">
+  <div class="outro-inner">
+    <div>
+      <h2 class="outro-h">Get on the <em>list</em>.</h2>
+      <p class="outro-p">First batch ships to the waitlist. Early pricing, founder updates, and a seat at the table when the lineup expands.</p>
+      <div class="fine">
+        <span>No spam, ever</span>
+        <span>Unsubscribe anytime</span>
+        <span>Made in California</span>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ══ PRODUCTS ══ -->
-<section class="prod-sec" id="products">
-  <div class="container">
-    <div class="prod-hdr rv">
-      <div><div class="sec-lbl" style="margin-bottom:16px">002 — Launch SKUs</div><h2 class="prod-title">The Lineup.</h2></div>
-      <div class="prod-note rv d1">Launch Q2 / Q3 2026<br>Waitlist access ships first</div>
-    </div>
-    <div class="prod-grid">
-      <div class="pcard rv">
-        <div class="pbadge blnch">First Drop</div>
-        <div class="ptag"><div class="tline"></div>Isolate 001</div>
-        <h3 class="pname">Unflavored<br>Isolate</h3>
-        <p class="pdesc">The purest expression. Zero additives. Stack it with anything. Let the protein speak.</p>
-        <div class="pspecs">
-          <div class="srow"><span class="sk">Protein / serving</span><span class="sv">27g</span></div>
-          <div class="srow"><span class="sk">Calories</span><span class="sv">110 kcal</span></div>
-          <div class="srow"><span class="sk">Format</span><span class="sv">Fine powder</span></div>
-          <div class="srow"><span class="sk">Certifications</span><span class="sv">NSF / Informed Sport</span></div>
-        </div>
-      </div>
-      <div class="pcard rv d1">
-        <div class="pbadge blnch">First Drop</div>
-        <div class="ptag"><div class="tline"></div>Isolate 002</div>
-        <h3 class="pname">Madagascar<br>Vanilla</h3>
-        <p class="pdesc">Single-origin vanilla. Clean sweetness, no compromise. For those who refuse to trade taste for integrity.</p>
-        <div class="pspecs">
-          <div class="srow"><span class="sk">Protein / serving</span><span class="sv">26g</span></div>
-          <div class="srow"><span class="sk">Sweetener</span><span class="sv">Monk fruit</span></div>
-          <div class="srow"><span class="sk">Format</span><span class="sv">Fine powder</span></div>
-          <div class="srow"><span class="sk">Certifications</span><span class="sv">NSF / Informed Sport</span></div>
-        </div>
-      </div>
-      <div class="pcard rv d2">
-        <div class="pbadge">First Drop</div>
-        <div class="ptag"><div class="tline"></div>Isolate 003</div>
-        <h3 class="pname">Dutch<br>Cocoa</h3>
-        <p class="pdesc">Deep, rich, honest. Dutch-processed cacao with nothing to hide. The shake you actually look forward to.</p>
-        <div class="pspecs">
-          <div class="srow"><span class="sk">Protein / serving</span><span class="sv">25g</span></div>
-          <div class="srow"><span class="sk">Sweetener</span><span class="sv">Monk fruit</span></div>
-          <div class="srow"><span class="sk">Format</span><span class="sv">Fine powder</span></div>
-          <div class="srow"><span class="sk">Certifications</span><span class="sv">NSF / Informed Sport</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ SCIENCE ══ -->
-<section class="sci-sec" id="science">
-  <div class="container">
-    <div class="sci-grid">
-      <div class="rv">
-        <div class="sec-lbl" style="margin-bottom:0">003 — The Science</div>
-        <h2 class="sci-h">Fermented.<br><em>Not extracted.</em><br>Not synthesized.</h2>
-        <p class="sci-b">Ode is produced through precision fermentation — a controlled biological process yielding a complete protein matrix with whey-level muscle performance and zero dairy hormones. The result is protein that builds your body without inflaming your skin.</p>
-      </div>
-      <div class="sci-right rv d1">
-        <div class="sci-row"><span class="sci-rl">BCAA Content</span><span class="sci-rv">22% by weight</span></div>
-        <div class="sci-row"><span class="sci-rl">Leucine (trigger aa)</span><span class="sci-rv">8.5% total</span></div>
-        <div class="sci-row featured"><span class="sci-rl">Digestibility (PDCAAS)<span class="sci-feat-tag">muscle</span></span><span class="sci-rv">0.97</span></div>
-        <div class="sci-row featured"><span class="sci-rl">Acne / skin risk<span class="sci-feat-tag green">skin</span></span><span class="sci-rv">None — dairy-free</span></div>
-        <div class="sci-row"><span class="sci-rl">Processing method</span><span class="sci-rv">Precision fermentation</span></div>
-        <div class="sci-row featured"><span class="sci-rl">Carbon footprint<span class="sci-feat-tag green">planet</span></span><span class="sci-rv">~70% vs whey</span></div>
-        <div class="sci-row"><span class="sci-rl">Heavy metal risk</span><span class="sci-rv">Negligible</span></div>
-        <div class="sci-row featured"><span class="sci-rl">Allergen profile<span class="sci-feat-tag green">health</span></span><span class="sci-rv">Dairy / gluten free</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ CURSOR-REVEAL INSPECT ══ -->
-<section class="ins-sec" id="inspect">
-  <div class="container">
-    <div class="ins-intro rv">
-      <div>
-        <div class="sec-lbl" style="margin-bottom:16px">004 — Under the Lens</div>
-        <h2 class="ins-h">Move your cursor.<br><em>See inside.</em></h2>
-      </div>
-      <div class="ins-hint">Hover any panel<br>to <span>reveal the insight</span></div>
-    </div>
-
-    <div class="ins-grid rv d1">
-
-      <!-- 01 YEAST CELL — tall -->
-      <div class="ic tall">
-        <svg viewBox="0 0 360 680" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <radialGradient id="cg" cx="50%" cy="50%" r="46%">
-              <stop offset="0%" stop-color="#4a7c59" stop-opacity=".1"/>
-              <stop offset="100%" stop-color="#4a7c59" stop-opacity="0"/>
-            </radialGradient>
-            <filter id="gf1"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          </defs>
-          <!-- grid -->
-          <g stroke="rgba(138,111,78,.05)" stroke-width=".6">
-            <line x1="0" y1="85" x2="360" y2="85"/><line x1="0" y1="170" x2="360" y2="170"/>
-            <line x1="0" y1="255" x2="360" y2="255"/><line x1="0" y1="340" x2="360" y2="340"/>
-            <line x1="0" y1="425" x2="360" y2="425"/><line x1="0" y1="510" x2="360" y2="510"/>
-            <line x1="0" y1="595" x2="360" y2="595"/>
-            <line x1="90" y1="0" x2="90" y2="680"/><line x1="180" y1="0" x2="180" y2="680"/><line x1="270" y1="0" x2="270" y2="680"/>
-          </g>
-          <!-- cell wall -->
-          <ellipse cx="180" cy="340" rx="128" ry="195" fill="url(#cg)" stroke="rgba(138,111,78,.28)" stroke-width="1.8" stroke-dasharray="8 5"/>
-          <!-- nucleus -->
-          <circle cx="180" cy="310" r="52" fill="rgba(138,111,78,.06)" stroke="rgba(138,111,78,.3)" stroke-width="1.8"/>
-          <circle cx="180" cy="310" r="18" fill="rgba(138,111,78,.15)" filter="url(#gf1)"/>
-          <text x="180" y="315" text-anchor="middle" fill="rgba(138,111,78,.9)" font-family="DM Mono,monospace" font-size="11" letter-spacing="2">NUCLEUS</text>
-          <!-- ribosomes -->
-          <circle cx="155" cy="375" r="6" fill="rgba(74,124,89,.9)" filter="url(#gf1)"/>
-          <circle cx="205" cy="382" r="6" fill="rgba(74,124,89,.9)" filter="url(#gf1)"/>
-          <circle cx="178" cy="265" r="5" fill="rgba(74,124,89,.85)" filter="url(#gf1)"/>
-          <circle cx="218" cy="272" r="4.5" fill="rgba(74,124,89,.8)" filter="url(#gf1)"/>
-          <circle cx="145" cy="295" r="4.5" fill="rgba(74,124,89,.8)" filter="url(#gf1)"/>
-          <!-- ribosome label — centered safely -->
-          <line x1="205" y1="382" x2="240" y2="400" stroke="rgba(74,124,89,.3)" stroke-width="1"/>
-          <text x="180" y="435" text-anchor="middle" fill="rgba(74,124,89,.9)" font-family="DM Mono,monospace" font-size="10">RIBOSOME · protein factory</text>
-          <!-- peptide chain centered -->
-          <g transform="translate(90,490)">
-            <circle cx="0"  cy="0" r="8" fill="rgba(138,111,78,.1)" stroke="rgba(138,111,78,.32)" stroke-width="1"/>
-            <circle cx="30" cy="0" r="8" fill="rgba(138,111,78,.1)" stroke="rgba(138,111,78,.32)" stroke-width="1"/>
-            <circle cx="60" cy="0" r="8" fill="rgba(138,111,78,.1)" stroke="rgba(138,111,78,.32)" stroke-width="1"/>
-            <circle cx="90" cy="0" r="8" fill="rgba(138,111,78,.1)" stroke="rgba(138,111,78,.32)" stroke-width="1"/>
-            <circle cx="120" cy="0" r="8" fill="rgba(138,111,78,.1)" stroke="rgba(138,111,78,.32)" stroke-width="1"/>
-            <circle cx="150" cy="0" r="8" fill="rgba(138,111,78,.1)" stroke="rgba(138,111,78,.32)" stroke-width="1"/>
-            <circle cx="180" cy="0" r="8" fill="rgba(138,111,78,.1)" stroke="rgba(138,111,78,.32)" stroke-width="1"/>
-            <line x1="8" y1="0" x2="22" y2="0" stroke="rgba(138,111,78,.3)" stroke-width="1.2"/>
-            <line x1="38" y1="0" x2="52" y2="0" stroke="rgba(138,111,78,.3)" stroke-width="1.2"/>
-            <line x1="68" y1="0" x2="82" y2="0" stroke="rgba(138,111,78,.3)" stroke-width="1.2"/>
-            <line x1="98" y1="0" x2="112" y2="0" stroke="rgba(138,111,78,.3)" stroke-width="1.2"/>
-            <line x1="128" y1="0" x2="142" y2="0" stroke="rgba(138,111,78,.3)" stroke-width="1.2"/>
-            <line x1="158" y1="0" x2="172" y2="0" stroke="rgba(138,111,78,.3)" stroke-width="1.2"/>
-            <text x="90" y="24" text-anchor="middle" fill="rgba(138,111,78,.85)" font-family="DM Mono,monospace" font-size="9.5" letter-spacing="2">PEPTIDE CHAIN</text>
-          </g>
-          <!-- scale bar bottom-center safe zone -->
-          <line x1="134" y1="618" x2="226" y2="618" stroke="rgba(138,111,78,.4)" stroke-width="1.2"/>
-          <line x1="134" y1="612" x2="134" y2="624" stroke="rgba(138,111,78,.4)" stroke-width="1.2"/>
-          <line x1="226" y1="612" x2="226" y2="624" stroke="rgba(138,111,78,.4)" stroke-width="1.2"/>
-          <text x="180" y="640" text-anchor="middle" fill="rgba(80,74,64,.8)" font-family="DM Mono,monospace" font-size="11">~8 µm</text>
-          <!-- title top-center -->
-          <text x="180" y="52" text-anchor="middle" fill="rgba(80,74,64,.65)" font-family="DM Mono,monospace" font-size="10" letter-spacing="3">SACCHAROMYCES CEREVISIAE</text>
-        </svg>
-        <div class="ic-overlay"><div class="ic-glass"></div><div class="ic-info">
-          <div class="ic-tag">Yeast Cell Anatomy</div>
-          <div class="ic-title">Saccharomyces<br>cerevisiae</div>
-          <div class="ic-body">The precision-fermented source behind Ode. A single-celled organism ~8 µm wide — its ribosomes are the protein factories, running continuously during fermentation. <strong>Budding growth means infinite, scalable yield.</strong></div>
-        </div></div>
-        <div class="clbl">Yeast Cell Structure</div>
-        <div class="cidx">01</div>
-      </div>
-
-      <!-- 02 AMINO ACID RADAR -->
-      <div class="ic">
-        <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <!-- grid rings centered at 180,160 -->
-          <g stroke="rgba(138,111,78,.07)" stroke-width=".75" fill="none">
-            <polygon points="180,62 236,93 256,160 228,222 132,222 104,160 124,93"/>
-            <polygon points="180,85 224,110 240,160 216,207 144,207 120,160 136,110"/>
-            <polygon points="180,108 212,127 224,160 204,191 156,191 136,160 148,127"/>
-            <polygon points="180,131 200,144 208,160 192,175 168,175 152,160 160,144"/>
-          </g>
-          <!-- spokes -->
-          <g stroke="rgba(138,111,78,.08)" stroke-width=".75">
-            <line x1="180" y1="160" x2="180" y2="52"/>
-            <line x1="180" y1="160" x2="248" y2="98"/>
-            <line x1="180" y1="160" x2="264" y2="166"/>
-            <line x1="180" y1="160" x2="232" y2="232"/>
-            <line x1="180" y1="160" x2="128" y2="232"/>
-            <line x1="180" y1="160" x2="96" y2="166"/>
-            <line x1="180" y1="160" x2="112" y2="98"/>
-          </g>
-          <!-- Ode filled polygon -->
-          <polygon points="180,65 234,95 252,160 226,220 134,220 106,160 126,95" fill="rgba(74,124,89,.13)" stroke="rgba(74,124,89,.55)" stroke-width="1.8"/>
-          <!-- Whey dashed polygon -->
-          <polygon points="180,68 230,97 248,160 223,216 137,216 109,160 130,97" fill="none" stroke="rgba(138,111,78,.3)" stroke-width="1.2" stroke-dasharray="5 3"/>
-          <!-- Amino acid labels — pulled in 8px from edge each -->
-          <text x="180" y="46" text-anchor="middle" fill="rgba(80,74,64,.88)" font-family="DM Mono,monospace" font-size="10" letter-spacing="1">LEU</text>
-          <text x="256" y="94" text-anchor="start" fill="rgba(80,74,64,.88)" font-family="DM Mono,monospace" font-size="10" letter-spacing="1">ILE</text>
-          <text x="270" y="170" text-anchor="start" fill="rgba(80,74,64,.88)" font-family="DM Mono,monospace" font-size="10" letter-spacing="1">VAL</text>
-          <text x="234" y="244" text-anchor="middle" fill="rgba(80,74,64,.88)" font-family="DM Mono,monospace" font-size="10" letter-spacing="1">LYS</text>
-          <text x="126" y="244" text-anchor="middle" fill="rgba(80,74,64,.88)" font-family="DM Mono,monospace" font-size="10" letter-spacing="1">THR</text>
-          <text x="58" y="170" text-anchor="end" fill="rgba(80,74,64,.88)" font-family="DM Mono,monospace" font-size="10" letter-spacing="1">MET</text>
-          <text x="100" y="94" text-anchor="end" fill="rgba(80,74,64,.88)" font-family="DM Mono,monospace" font-size="10" letter-spacing="1">PHE</text>
-          <!-- vertex dots -->
-          <circle cx="180" cy="65" r="3.5" fill="rgba(74,124,89,.8)"/>
-          <circle cx="234" cy="95" r="3.5" fill="rgba(74,124,89,.8)"/>
-          <circle cx="252" cy="160" r="3.5" fill="rgba(74,124,89,.8)"/>
-          <circle cx="226" cy="220" r="3.5" fill="rgba(74,124,89,.8)"/>
-          <circle cx="134" cy="220" r="3.5" fill="rgba(74,124,89,.8)"/>
-          <circle cx="106" cy="160" r="3.5" fill="rgba(74,124,89,.8)"/>
-          <circle cx="126" cy="95" r="3.5" fill="rgba(74,124,89,.8)"/>
-          <!-- legend — bottom center, safe -->
-          <rect x="108" y="272" width="12" height="3" fill="rgba(74,124,89,.8)" rx="1.5"/>
-          <text x="125" y="276" fill="rgba(80,74,64,.85)" font-family="DM Mono,monospace" font-size="9.5">Ode</text>
-          <rect x="178" y="272" width="12" height="3" fill="none" stroke="rgba(138,111,78,.45)" stroke-width="1.2" rx="1.5" stroke-dasharray="3 2"/>
-          <text x="195" y="276" fill="rgba(80,74,64,.8)" font-family="DM Mono,monospace" font-size="9.5">Whey</text>
-        </svg>
-        <div class="ic-overlay"><div class="ic-glass"></div><div class="ic-info">
-          <div class="ic-tag">EAA Radar</div>
-          <div class="ic-title">Complete at<br>every axis</div>
-          <div class="ic-body">All 7 essential amino acids at or above whey isolate. <strong>Leucine at 8.5%</strong> — the anabolic trigger threshold — is where most plant proteins fall short. Ode doesn't.</div>
-        </div></div>
-        <div class="clbl">Amino Acid Profile vs Whey</div>
-        <div class="cidx">02</div>
-      </div>
-
-      <!-- 03 POWDER CLOSEUP / MICRO -->
-      <div class="ic">
-        <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <radialGradient id="mg" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#8a6f4e" stop-opacity=".07"/>
-              <stop offset="100%" stop-color="#8a6f4e" stop-opacity="0"/>
-            </radialGradient>
-            <filter id="gf3"><feGaussianBlur stdDeviation="2"/></filter>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#mg)"/>
-          <!-- grid lines -->
-          <g stroke="rgba(138,111,78,.05)" stroke-width=".5">
-            <line x1="0" y1="64" x2="360" y2="64"/><line x1="0" y1="128" x2="360" y2="128"/>
-            <line x1="0" y1="192" x2="360" y2="192"/><line x1="0" y1="256" x2="360" y2="256"/>
-            <line x1="72" y1="0" x2="72" y2="320"/><line x1="144" y1="0" x2="144" y2="320"/>
-            <line x1="216" y1="0" x2="216" y2="320"/><line x1="288" y1="0" x2="288" y2="320"/>
-          </g>
-          <!-- particle clusters — all within 30-330 x, 30-290 y safe zone -->
-          <circle cx="100" cy="100" r="24" fill="rgba(138,111,78,.1)" stroke="rgba(138,111,78,.22)" stroke-width="1"/>
-          <circle cx="100" cy="100" r="15" fill="rgba(138,111,78,.08)"/>
-          <circle cx="100" cy="100" r="7" fill="rgba(138,111,78,.16)" filter="url(#gf3)"/>
-          <circle cx="175" cy="148" r="30" fill="rgba(74,124,89,.09)" stroke="rgba(74,124,89,.2)" stroke-width="1"/>
-          <circle cx="175" cy="148" r="19" fill="rgba(74,124,89,.07)"/>
-          <circle cx="175" cy="148" r="9" fill="rgba(74,124,89,.17)" filter="url(#gf3)"/>
-          <circle cx="262" cy="95" r="20" fill="rgba(138,111,78,.09)" stroke="rgba(138,111,78,.2)" stroke-width="1"/>
-          <circle cx="262" cy="95" r="12" fill="rgba(138,111,78,.07)"/>
-          <circle cx="262" cy="95" r="5" fill="rgba(138,111,78,.14)" filter="url(#gf3)"/>
-          <circle cx="300" cy="175" r="22" fill="rgba(74,124,89,.08)" stroke="rgba(74,124,89,.16)" stroke-width="1"/>
-          <circle cx="300" cy="175" r="13" fill="rgba(74,124,89,.05)"/>
-          <circle cx="300" cy="175" r="6" fill="rgba(74,124,89,.13)" filter="url(#gf3)"/>
-          <circle cx="70" cy="210" r="17" fill="rgba(138,111,78,.09)" stroke="rgba(138,111,78,.18)" stroke-width="1"/>
-          <circle cx="210" cy="240" r="19" fill="rgba(74,124,89,.07)" stroke="rgba(74,124,89,.14)" stroke-width="1"/>
-          <circle cx="210" cy="240" r="11" fill="rgba(74,124,89,.05)"/>
-          <!-- micro particles -->
-          <circle cx="140" cy="65" r="5" fill="rgba(138,111,78,.13)"/>
-          <circle cx="220" cy="58" r="4" fill="rgba(74,124,89,.13)"/>
-          <circle cx="48" cy="155" r="5" fill="rgba(74,124,89,.11)"/>
-          <circle cx="315" cy="240" r="4" fill="rgba(138,111,78,.12)"/>
-          <circle cx="115" cy="275" r="6" fill="rgba(74,124,89,.1)"/>
-          <circle cx="255" cy="270" r="5" fill="rgba(138,111,78,.11)"/>
-          <!-- scale bar — bottom-center, clear of particles -->
-          <rect x="40" y="272" width="130" height="26" rx="6" fill="rgba(255,255,255,0.55)" stroke="rgba(138,111,78,.15)" stroke-width="1"/>
-          <line x1="58" y1="285" x2="98" y2="285" stroke="rgba(138,111,78,.55)" stroke-width="1.2"/>
-          <line x1="58" y1="280" x2="58" y2="290" stroke="rgba(138,111,78,.55)" stroke-width="1.2"/>
-          <line x1="98" y1="280" x2="98" y2="290" stroke="rgba(138,111,78,.55)" stroke-width="1.2"/>
-          <text x="112" y="289" fill="rgba(80,74,64,.85)" font-family="DM Mono,monospace" font-size="10">50 µm</text>
-          <!-- purity badge — top right, clear of particles -->
-          <rect x="210" y="18" width="130" height="28" rx="6" fill="rgba(255,255,255,0.55)" stroke="rgba(138,111,78,.18)" stroke-width="1"/>
-          <text x="275" y="30" text-anchor="middle" fill="rgba(138,111,78,.7)" font-family="DM Mono,monospace" font-size="8.5" letter-spacing="2">PURITY</text>
-          <text x="275" y="41" text-anchor="middle" fill="rgba(138,111,78,.92)" font-family="DM Mono,monospace" font-size="11">95.2%</text>
-        </svg>
-        <div class="ic-overlay"><div class="ic-glass"></div><div class="ic-info">
-          <div class="ic-tag">Powder Microstructure</div>
-          <div class="ic-title">95.2% pure.<br>Nothing else.</div>
-          <div class="ic-body">Simulated electron microscope view of the isolate powder. <strong>Fine, uniform particle size</strong> means instant dispersion — no grit, no clumping, no chalky residue. Just protein.</div>
-        </div></div>
-        <div class="clbl">Powder Micro Closeup</div>
-        <div class="cidx">03</div>
-      </div>
-
-      <!-- 04 FERMENTATION FLOW -->
-      <div class="ic">
-        <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="flowg" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#4a7c59" stop-opacity=".07"/>
-              <stop offset="100%" stop-color="#8a6f4e" stop-opacity=".07"/>
-            </linearGradient>
-            <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-              <path d="M0,0 L6,3 L0,6 Z" fill="rgba(138,111,78,.7)"/>
-            </marker>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#flowg)"/>
-          <!-- horizontal spine -->
-          <line x1="50" y1="148" x2="310" y2="148" stroke="rgba(138,111,78,.14)" stroke-width="1.5" stroke-dasharray="6 4"/>
-          <!-- Step 1 -->
-          <circle cx="80" cy="148" r="28" fill="rgba(74,124,89,.09)" stroke="rgba(74,124,89,.32)" stroke-width="1.8"/>
-          <text x="80" y="143" text-anchor="middle" fill="rgba(74,124,89,.93)" font-family="DM Mono,monospace" font-size="9.5">FEED</text>
-          <text x="80" y="155" text-anchor="middle" fill="rgba(74,124,89,.93)" font-family="DM Mono,monospace" font-size="9.5">STOCK</text>
-          <text x="80" y="190" text-anchor="middle" fill="rgba(80,74,64,.78)" font-family="DM Mono,monospace" font-size="9">Sugarcane</text>
-          <!-- arrow -->
-          <path d="M111,148 L139,148" stroke="rgba(138,111,78,.3)" stroke-width="1.2" marker-end="url(#arr)"/>
-          <!-- Step 2 -->
-          <circle cx="168" cy="148" r="28" fill="rgba(74,124,89,.09)" stroke="rgba(74,124,89,.32)" stroke-width="1.8"/>
-          <text x="168" y="143" text-anchor="middle" fill="rgba(74,124,89,.93)" font-family="DM Mono,monospace" font-size="9.5">BIO</text>
-          <text x="168" y="155" text-anchor="middle" fill="rgba(74,124,89,.93)" font-family="DM Mono,monospace" font-size="9.5">REACTOR</text>
-          <text x="168" y="190" text-anchor="middle" fill="rgba(80,74,64,.78)" font-family="DM Mono,monospace" font-size="9">37°C · pH 6.5</text>
-          <!-- arrow -->
-          <path d="M198,148 L226,148" stroke="rgba(138,111,78,.3)" stroke-width="1.2" marker-end="url(#arr)"/>
-          <!-- Step 3 -->
-          <circle cx="256" cy="148" r="28" fill="rgba(138,111,78,.09)" stroke="rgba(138,111,78,.32)" stroke-width="1.8"/>
-          <text x="256" y="143" text-anchor="middle" fill="rgba(138,111,78,.92)" font-family="DM Mono,monospace" font-size="9.5">ISOLATE</text>
-          <text x="256" y="155" text-anchor="middle" fill="rgba(138,111,78,.92)" font-family="DM Mono,monospace" font-size="9.5">95.2%</text>
-          <text x="256" y="190" text-anchor="middle" fill="rgba(80,74,64,.78)" font-family="DM Mono,monospace" font-size="9">Pure protein</text>
-          <!-- Ode benefits — centered bottom block -->
-          <text x="180" y="232" text-anchor="middle" fill="rgba(74,124,89,.88)" font-family="DM Mono,monospace" font-size="10">✓ Complete EAAs · PDCAAS 0.97</text>
-          <text x="180" y="250" text-anchor="middle" fill="rgba(74,124,89,.85)" font-family="DM Mono,monospace" font-size="10">✓ –70% carbon vs whey</text>
-          <text x="180" y="268" text-anchor="middle" fill="rgba(74,124,89,.82)" font-family="DM Mono,monospace" font-size="10">✓ Zero dairy hormones</text>
-          <!-- title -->
-          <text x="180" y="38" text-anchor="middle" fill="rgba(80,74,64,.65)" font-family="DM Mono,monospace" font-size="10" letter-spacing="3">PRODUCTION PATHWAY</text>
-          <!-- vs label -->
-          <text x="180" y="110" text-anchor="middle" fill="rgba(80,74,64,.4)" font-family="DM Mono,monospace" font-size="9">Precision Fermentation — not extraction</text>
-        </svg>
-        <div class="ic-overlay"><div class="ic-glass"></div><div class="ic-info">
-          <div class="ic-tag">Production Pathway</div>
-          <div class="ic-title">Built, not<br>extracted.</div>
-          <div class="ic-body">Mechanical extraction tears protein from plant matter — introducing anti-nutrients and compromising amino acid integrity. Precision fermentation <strong>builds protein at the cellular level</strong>, from the start. 70% lower carbon footprint than whey.</div>
-        </div></div>
-        <div class="clbl">Fermentation Process Flow</div>
-        <div class="cidx">04</div>
-      </div>
-
-      <!-- 05 PDCAAS DIGESTIBILITY BENCHMARK -->
-      <div class="ic">
-        <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="barOde" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#4a7c59" stop-opacity=".75"/>
-              <stop offset="100%" stop-color="#4a7c59" stop-opacity=".4"/>
-            </linearGradient>
-            <linearGradient id="barWhey" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#8a6f4e" stop-opacity=".55"/>
-              <stop offset="100%" stop-color="#8a6f4e" stop-opacity=".25"/>
-            </linearGradient>
-            <linearGradient id="barOther" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#8a6f4e" stop-opacity=".28"/>
-              <stop offset="100%" stop-color="#8a6f4e" stop-opacity=".1"/>
-            </linearGradient>
-          </defs>
-          <!-- title -->
-          <text x="180" y="34" text-anchor="middle" fill="rgba(80,74,64,.7)" font-family="DM Mono,monospace" font-size="10" letter-spacing="3">PDCAAS SCORE</text>
-          <!-- axis -->
-          <line x1="110" y1="55" x2="110" y2="255" stroke="rgba(138,111,78,.12)" stroke-width="1"/>
-          <line x1="110" y1="255" x2="330" y2="255" stroke="rgba(138,111,78,.12)" stroke-width="1"/>
-          <!-- bar scale: 0→110, 0.97→110+206=316 (206px range) -->
-          <!-- Ode 0.97 → 206px -->
-          <rect x="110" y="65" width="206" height="26" rx="3" fill="url(#barOde)"/>
-          <text x="106" y="83" text-anchor="end" fill="rgba(74,124,89,.95)" font-family="DM Mono,monospace" font-size="10" font-weight="500">Ode</text>
-          <text x="322" y="83" text-anchor="end" fill="rgba(74,124,89,.9)" font-family="DM Mono,monospace" font-size="10">0.97</text>
-          <!-- Egg white 0.97 → 206px -->
-          <rect x="110" y="101" width="206" height="20" rx="3" fill="url(#barWhey)"/>
-          <text x="106" y="115" text-anchor="end" fill="rgba(80,74,64,.85)" font-family="DM Mono,monospace" font-size="9.5">Egg white</text>
-          <text x="322" y="115" text-anchor="end" fill="rgba(138,111,78,.88)" font-family="DM Mono,monospace" font-size="9.5">0.97</text>
-          <!-- Whey 0.92 → 194px -->
-          <rect x="110" y="131" width="194" height="20" rx="3" fill="url(#barWhey)"/>
-          <text x="106" y="145" text-anchor="end" fill="rgba(80,74,64,.85)" font-family="DM Mono,monospace" font-size="9.5">Whey</text>
-          <text x="310" y="145" text-anchor="end" fill="rgba(138,111,78,.88)" font-family="DM Mono,monospace" font-size="9.5">0.92</text>
-          <!-- Soy 0.91 → 192px -->
-          <rect x="110" y="161" width="192" height="20" rx="3" fill="url(#barOther)"/>
-          <text x="106" y="175" text-anchor="end" fill="rgba(80,74,64,.82)" font-family="DM Mono,monospace" font-size="9.5">Soy</text>
-          <text x="308" y="175" text-anchor="end" fill="rgba(138,111,78,.82)" font-family="DM Mono,monospace" font-size="9.5">0.91</text>
-          <!-- Pea 0.69 → 146px -->
-          <rect x="110" y="191" width="146" height="20" rx="3" fill="url(#barOther)"/>
-          <text x="106" y="205" text-anchor="end" fill="rgba(80,74,64,.8)" font-family="DM Mono,monospace" font-size="9.5">Pea</text>
-          <text x="262" y="205" text-anchor="end" fill="rgba(138,111,78,.8)" font-family="DM Mono,monospace" font-size="9.5">0.69</text>
-          <!-- Rice 0.59 → 124px -->
-          <rect x="110" y="221" width="124" height="20" rx="3" fill="url(#barOther)"/>
-          <text x="106" y="235" text-anchor="end" fill="rgba(80,74,64,.78)" font-family="DM Mono,monospace" font-size="9.5">Rice</text>
-          <text x="240" y="235" text-anchor="end" fill="rgba(138,111,78,.76)" font-family="DM Mono,monospace" font-size="9.5">0.59</text>
-          <!-- max dashed line -->
-          <line x1="316" y1="55" x2="316" y2="255" stroke="rgba(74,124,89,.22)" stroke-width="1" stroke-dasharray="3 3"/>
-          <!-- x axis labels -->
-          <text x="110" y="270" text-anchor="middle" fill="rgba(80,74,64,.6)" font-family="DM Mono,monospace" font-size="8.5">0</text>
-          <text x="213" y="270" text-anchor="middle" fill="rgba(80,74,64,.6)" font-family="DM Mono,monospace" font-size="8.5">0.50</text>
-          <text x="316" y="270" text-anchor="middle" fill="rgba(74,124,89,.75)" font-family="DM Mono,monospace" font-size="8.5">0.97</text>
-          <!-- callout pill — top right, clear of all bars -->
-          <rect x="186" y="46" width="138" height="22" rx="11" fill="rgba(74,124,89,.08)" stroke="rgba(74,124,89,.22)" stroke-width="1"/>
-          <text x="255" y="61" text-anchor="middle" fill="rgba(74,124,89,.85)" font-family="DM Mono,monospace" font-size="8.5">Animal-free = whey score</text>
-        </svg>
-        <div class="ic-overlay"><div class="ic-glass"></div><div class="ic-info">
-          <div class="ic-tag">Digestibility Benchmark</div>
-          <div class="ic-title">PDCAAS 0.97 —<br>animal-free.</div>
-          <div class="ic-body">On par with egg white and whey isolate. Pea protein scores 0.69. Rice scores 0.59. <strong>Ode is the only animal-free protein at this digestibility tier</strong> — which means your body actually uses what's in the scoop.</div>
-        </div></div>
-        <div class="clbl">PDCAAS Digestibility</div>
-        <div class="cidx">05</div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ══ CTA ══ -->
-<section class="cta-sec" id="waitlist">
-  <div class="cta-orb"></div>
-  <div class="container" style="position:relative">
-    <p class="cta-ey rv">Access is limited — waitlist closes at 2,500</p>
-    <h2 class="cta-h rv d1">Be first.<br><em>Or wait.</em></h2>
-    <p class="cta-sub rv d2">Early access. Founding member pricing. A protein unlike anything that's come before.</p>
-    <div class="cta-grp rv d3">
-      <div class="wform" id="cf">
-        <input type="email" class="winput" placeholder="your@email.com" id="ce">
-        <button class="wbtn" onclick="signup('ce','cf','cs')">Secure Your Spot</button>
-      </div>
-      <div class="suc" id="cs"><span>✦</span> You're on the list. We'll be in touch.</div>
+    <div>
+      <form class="wform" id="wf">
+        <input type="email" id="we" required placeholder="you@somewhere.com" autocomplete="email">
+        <button type="submit">Join →</button>
+      </form>
+      <div class="suc" id="ws"><span>✦</span> You're on the list. We'll be in touch.</div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="fl">Ode</div>
-  <div class="fr">
-    <a href="#" class="flink">Contact</a>
-    <a href="#" class="flink">Instagram</a>
-    <a href="#" class="flink">Privacy</a>
+  <div>© 2026 Ode Protein Co.</div>
+  <div style="display:flex; gap:24px">
+    <a href="#">Instagram</a>
+    <a href="#">Substack</a>
+    <a href="#">Contact</a>
   </div>
-  <div class="fc">© 2026 Ode Nutrition LLC</div>
 </footer>
 
 <script>
-// CURSOR
-const cur=document.getElementById('cursor'),ring=document.getElementById('cr');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=(mx-4)+'px';cur.style.top=(my-4)+'px'});
-(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=(rx-16)+'px';ring.style.top=(ry-16)+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button,input,.ic').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cur.classList.add('hov'));
-  el.addEventListener('mouseleave',()=>cur.classList.remove('hov'));
-});
-// NAV
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('sc',scrollY>60));
-// SCROLL REVEAL
-const obs=new IntersectionObserver(e=>e.forEach(e=>e.isIntersecting&&e.target.classList.add('vis')),{threshold:.1});
-document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
-// COUNTER
-const cEl=document.getElementById('cnt');
-let realCount=0;
-// Fetch live count from database
-fetch('/api/waitlist-count')
-  .then(r=>r.json())
-  .then(data=>{
-    realCount=data.count;
-    cEl.textContent=realCount.toLocaleString();
-  })
-  .catch(()=>{realCount=0;cEl.textContent='0'});
-// SIGNUP
-function signup(iId,fId,sId){
-  const i=document.getElementById(iId),f=document.getElementById(fId),s=document.getElementById(sId);
-  if(!i.value||!i.value.includes('@')){i.style.borderLeft='2px solid #c0392b';setTimeout(()=>i.style.borderLeft='',900);return}
-  const btn=i.nextElementSibling;
-  btn.disabled=true;btn.textContent='Joining...';
-  fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:i.value})})
-    .then(r=>r.json())
-    .then(data=>{
-      if(data.success){
-        f.style.display='none';s.classList.add('on');
-        realCount=data.count;
-        cEl.textContent=realCount.toLocaleString();
-      }else{
-        i.style.borderLeft='2px solid #c0392b';setTimeout(()=>i.style.borderLeft='',900);
-        btn.disabled=false;btn.textContent=btn.textContent;
-      }
-    })
-    .catch(()=>{
-      i.style.borderLeft='2px solid #c0392b';setTimeout(()=>i.style.borderLeft='',900);
-      btn.disabled=false;
-    });
-}
-document.querySelectorAll('.winput').forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter')i.nextElementSibling?.click()}));
-// SVG subtle scale is handled by CSS :hover
+const nav = document.getElementById('nav');
+const sp  = document.getElementById('sp');
+const fc  = document.getElementById('fc');
+const fcb = document.getElementById('fcb');
+const hint = document.getElementById('hint');
 
+const vid     = document.getElementById('vid');
+const stage   = document.getElementById('stage');
+const fallback= document.getElementById('fallback');
+const frames  = Array.from(document.querySelectorAll('.frame'));
+const N       = frames.length;
+
+let duration = 0;
+let videoReady = false;
+let targetTime = 0;
+let lastDrawn = -1;
+
+vid.addEventListener('loadeddata', () => {
+  fallback.style.opacity = 0;
+  fallback.style.transition = 'opacity .6s ease';
+  setTimeout(() => fallback.style.display = 'none', 700);
+});
+
+vid.addEventListener('loadedmetadata', () => {
+  duration = vid.duration || 0;
+  videoReady = true;
+  try { vid.currentTime = 0.001; } catch(e) {}
+});
+
+function primeVideo() {
+  const p = vid.play();
+  if (p && typeof p.then === 'function') {
+    p.then(() => vid.pause()).catch(() => {});
+  }
+}
+window.addEventListener('touchstart', primeVideo, { once:true, passive:true });
+window.addEventListener('click',      primeVideo, { once:true });
+
+function getProgress() {
+  const rect = stage.getBoundingClientRect();
+  const total = stage.offsetHeight - window.innerHeight;
+  const scrolled = Math.min(Math.max(-rect.top, 0), total);
+  return total > 0 ? scrolled / total : 0;
+}
+
+let rafId = null;
+function onScroll() {
+  if (rafId) return;
+  rafId = requestAnimationFrame(() => {
+    rafId = null;
+    const p = getProgress();
+    sp.style.width = (p * 100).toFixed(2) + '%';
+
+    if (window.scrollY > 40) nav.classList.add('sc'); else nav.classList.remove('sc');
+    if (p > 0.02) hint.classList.add('hide'); else hint.classList.remove('hide');
+
+    if (videoReady && duration > 0) {
+      const eased = Math.min(Math.max(p, 0), 0.999);
+      targetTime = eased * duration;
+    }
+
+    const idxFloat = p * (N - 1);
+    const active = Math.round(idxFloat);
+    frames.forEach((f, i) => {
+      f.classList.toggle('on', i === active);
+    });
+
+    const num = String(active + 1).padStart(2,'0');
+    fc.textContent = num;
+    fcb.style.width = (((active) / (N-1)) * 100).toFixed(1) + '%';
+  });
+}
+window.addEventListener('scroll', onScroll, { passive:true });
+window.addEventListener('resize', onScroll);
+onScroll();
+
+function tick() {
+  if (videoReady && duration > 0) {
+    const cur = vid.currentTime;
+    const diff = targetTime - cur;
+    if (Math.abs(diff) > 0.02) {
+      const next = cur + diff * 0.25;
+      if (Math.abs(next - lastDrawn) > 0.015) {
+        try { vid.currentTime = next; } catch(e) {}
+        lastDrawn = next;
+      }
+    }
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+const wf = document.getElementById('wf');
+const we = document.getElementById('we');
+const ws = document.getElementById('ws');
+wf.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!we.value || !we.value.includes('@')) return;
+  wf.style.display = 'none';
+  ws.classList.add('on');
+});
 </script>
 </body>
 </html>
